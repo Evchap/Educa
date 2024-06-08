@@ -36,3 +36,47 @@ class Module(models.Model): # page 3
     def __str__(self):
         return self.title
 
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+
+class Content(models.Model): # page 6
+    module = models.ForeignKey(Module,  related_name='contents', on_delete=models.CASCADE,)
+    # content_type = models.ForeignKey(ContentType, on_delete='CASCADE')
+    content_type = models.ForeignKey(ContentType, # page 11
+                                     limit_choices_to={'model__in': ('text',
+                                                                     'video',
+                                                                     'image',
+                                                                     'file',)},
+                                     on_delete=models.CASCADE,
+                                     )
+    object_id = models.PositiveIntegerField()
+    item = GenericForeignKey('content_type', 'object_id')
+
+
+class ItemBase(models.Model): # page 11
+    owner = models.ForeignKey(User, related_name='%(class)s_related', on_delete=models.CASCADE)
+    title = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.title
+
+
+class Text(ItemBase): # page 11
+    content = models.TextField()
+
+
+class File(ItemBase): # page 11
+    file = models.FileField(upload_to='files')
+
+
+class Image(ItemBase): # page 11
+    file = models.FileField(upload_to='images')
+
+
+class Video(ItemBase): # page 11
+    url = models.URLField()
