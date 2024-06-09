@@ -16,6 +16,7 @@ class SubjectDetailView(generics.RetrieveAPIView): # iss17
     serializer_class = SubjectSerializer
 
 
+
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,7 +31,6 @@ class CourseEnrollView(APIView): # iss19
         course = get_object_or_404(Course, pk=pk)
         course.students.add(request.user)
         return Response({'enrolled': True})
-
 
 
 from rest_framework import viewsets
