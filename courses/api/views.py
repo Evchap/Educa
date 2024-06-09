@@ -31,3 +31,10 @@ class CourseEnrollView(APIView): # iss19
         return Response({'enrolled': True})
 
 
+from rest_framework import viewsets
+from .serializers import CourseSerializer
+
+
+class CourseViewSet(viewsets.ReadOnlyModelViewSet): #iss22
+    queryset = Course.objects.all() #iss22
+    serializer_class = CourseSerializer #iss22
