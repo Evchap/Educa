@@ -4,14 +4,7 @@ from django.urls import re_path as url
 from . import views
 from rest_framework import routers
 
-
-
 app_name = 'courses'
-
-from rest_framework import routers
-from . import views
-
-
 
 router = routers.DefaultRouter() #iss22
 router.register('courses', views.CourseViewSet) #iss22
