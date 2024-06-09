@@ -21,13 +21,13 @@ from rest_framework import serializers
 from ..models import Course, Module
 
 
-class ModuleSerializer(serializers.ModelSerializer):
+class ModuleSerializer(serializers.ModelSerializer): # iss18
     class Meta:
         model = Module
         fields = ('order', 'title', 'description')
 
 
-class CourseSerializer(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer): # iss18
     modules = ModuleSerializer(many=True, read_only=True)
 
     class Meta:
